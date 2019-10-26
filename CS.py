@@ -36,14 +36,14 @@ def get_cuckoos(nest,best,lb,ub,n,dim):
 
     return tempnest
 
-def get_best_nest(nest,newnest,fitness,n,dim,objf,trainInput,trainOutput,net):
+def get_best_nest(nest,newnest,fitness,n,dim,objf,trainInput,trainOutput,net,MaxHiddenLayers,isClassifier):
 # Evaluating all new solutions
     tempnest=numpy.zeros((n,dim))
     tempnest=numpy.copy(nest)
 
     for j in range(0,n):
     #for j=1:size(nest,1),
-        fnew=objf(newnest[j,:],trainInput,trainOutput,net)
+        fnew=objf(newnest[j,:],trainInput,trainOutput,net,MaxHiddenLayers,isClassifier)
         if fnew<=fitness[j]:
            fitness[j]=fnew
            tempnest[j,:]=newnest[j,:]
@@ -73,7 +73,7 @@ def empty_nests(nest,pa,n,dim):
     return tempnest
 ##########################################################################
 
-def CS(objf,lb,ub,dim,n,N_IterTotal,trainInput,trainOutput,net):
+def CS(objf,lb,ub,dim,n,N_IterTotal,trainInput,trainOutput,net,MaxHiddenLayers,isClassifier):
 
     #lb=-1
     #ub=1
@@ -113,7 +113,7 @@ def CS(objf,lb,ub,dim,n,N_IterTotal,trainInput,trainOutput,net):
     timerStart=time.time() 
     s.startTime=time.strftime("%Y-%m-%d-%H-%M-%S")
     
-    fmin,bestnest,nest,fitness =get_best_nest(nest,new_nest,fitness,n,dim,objf,trainInput,trainOutput,net)
+    fmin,bestnest,nest,fitness =get_best_nest(nest,new_nest,fitness,n,dim,objf,trainInput,trainOutput,net,MaxHiddenLayers,isClassifier)
     convergence = [];
     # Main loop counter
     for iter in range (0,N_IterTotal):
@@ -123,14 +123,14 @@ def CS(objf,lb,ub,dim,n,N_IterTotal,trainInput,trainOutput,net):
          
          
          # Evaluate new solutions and find best
-         fnew,best,nest,fitness=get_best_nest(nest,new_nest,fitness,n,dim,objf,trainInput,trainOutput,net)
+         fnew,best,nest,fitness=get_best_nest(nest,new_nest,fitness,n,dim,objf,trainInput,trainOutput,net,MaxHiddenLayers,isClassifier)
          
         
          new_nest=empty_nests(new_nest,pa,n,dim) ;
          
         
         # Evaluate new solutions and find best
-         fnew,best,nest,fitness=get_best_nest(nest,new_nest,fitness,n,dim,objf,trainInput,trainOutput,net)
+         fnew,best,nest,fitness=get_best_nest(nest,new_nest,fitness,n,dim,objf,trainInput,trainOutput,net,MaxHiddenLayers,isClassifier)
     
          if fnew<fmin:
             fmin=fnew

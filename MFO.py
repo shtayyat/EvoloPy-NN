@@ -14,7 +14,7 @@ import time
 
 
   
-def MFO(objf,lb,ub,dim,N,Max_iteration,trainInput,trainOutput,net):
+def MFO(objf,lb,ub,dim,N,Max_iteration,trainInput,trainOutput,net,MaxHiddenLayers,isClassifier):
 
 
     #Max_iteration=1000
@@ -71,7 +71,7 @@ def MFO(objf,lb,ub,dim,N,Max_iteration,trainInput,trainOutput,net):
             Moth_pos[i,:]=numpy.clip(Moth_pos[i,:], lb, ub)
 
             # evaluate moths
-            Moth_fitness[i]=objf(Moth_pos[i,:],trainInput,trainOutput,net)  
+            Moth_fitness[i]=objf(Moth_pos[i,:],trainInput,trainOutput,net,MaxHiddenLayers,isClassifier)
             
         
            
