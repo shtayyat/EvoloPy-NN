@@ -3,42 +3,70 @@ import numpy
 import time
 import selector as slctr
 
-# Select optimizers
+'''
+Selecting the optimization algorithims to be used in run time
+set the algorithim you want to run to True else set them to False
+'''
 PSO = True
-MVO = True
-GWO = True
-MFO = True
-CS = True
-BAT = True
+MVO = False
+GWO = False
+MFO = False
+CS = False
+BAT = False
 
 optimizer = [PSO, MVO, GWO, MFO, CS, BAT]
-datasetsClassifier = ["BreastCancer", "Diabetes", "Liver", "Parkinsons", "Vertebral"]
-regression_datasets = ["Power1"]
-isClassifier = True
 
-# Select number of repetitions for each experiment. 
-# To obtain meaningful statistical results, usually 30 independent runs 
-# are executed for each algorithm.
-NumOfRuns = 2
+'''
+Selecting the datasets to be used in run time
+set the database in the array of classifier or regression
+Make sure you are splitting the datasets with Train and Train
+Default Available: ["BreastCancer", "Diabetes", "Liver", "Parkinsons", "Vertebral"]
+'''
+datasetsClassifier = ["BreastCancer", "Diabetes", "Liver", "Parkinsons", "Vertebral"]
+regression_datasets = ["Diabetes"]
+
+'''
+choose what you want to use in normalization
+available options are: ["minMax","vectorStandardization","manhattanStandardization","maxLinearStandardization","peldschusNonLinearStandardization","zafdaksLogarithmicStandardization"]
+'''
+normalizationFunction = "minMax"
+
+'''
+choose if you want to run a classification or regression
+isClassifier = True Then it Will use regression
+'''
+isClassifier = False
+
+'''
+Select number of repetitions for each experiment. 
+To obtain meaningful statistical results, usually 30 independent runs 
+are executed for each algorithm.
+'''
+NumOfRuns = 1
 
 # Select general parameters for all optimizers (population size, number of iterations)
 PopulationSize = 50
-Iterations = 5
+Iterations = 2
 
 # Export results ?
 Export = True
 
-# ExportToFile="YourResultsAreHere.csv"
-# Automaticly generated file name by date and time
+'''
+ExportToFile="YourResultsAreHere.csv"
+Automaticly generated file name by date and time
+'''
 ExportToFile = "experiment" + time.strftime("%Y-%m-%d-%H-%M-%S") + ".csv"
 
 # Check if it works at least once
 Flag = False
 
-# CSV Header for for the cinvergence 
-CnvgHeader = []
-datasets = datasetsClassifier if isClassifier == True else regression_datasets
+#Number of hidden layers
+HiddenLayersCount = 2
 
+# CSV Header for for the cinvergence
+CnvgHeader = []
+
+datasets = datasetsClassifier if isClassifier == True else regression_datasets
 for l in range(0, Iterations):
     CnvgHeader.append("Iter" + str(l + 1))
 
@@ -55,7 +83,7 @@ for j in range(0, len(datasets)):  # specfiy the number of the datasets
                 trainDataset = datasets[j] + "Train.csv"
                 testDataset = datasets[j] + "Test.csv"
                 x = slctr.selector(i, func_details, PopulationSize, Iterations, trainDataset,
-                                   testDataset, isClassifier)
+                                   testDataset, isClassifier, HiddenLayersCount, normalizationFunction)
 
                 if (Export == True):
                     with open(ExportToFile, 'a', newline='\n') as out:

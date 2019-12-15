@@ -8,17 +8,17 @@ import numpy as np
 import neurolab as nl
 #import solution
 
-def create_NN(x,numInputs,MaxHiddenLayers, isClassifier=True):
+def create_NN(x,numInputs,HiddenLayersCount, isClassifier=True):
     #numInputs=6
-    #MaxHiddenLayers=20
+    #HiddenLayersCount=20
     maxNeurons = numInputs*3
     out = 1
 
-    NN_Layers = x[:MaxHiddenLayers].copy()
+    NN_Layers = x[:HiddenLayersCount].copy()
     
     # clip if greater than 1
     NN_Layers[NN_Layers>1]=1
-    x[:MaxHiddenLayers]= NN_Layers.copy()
+    x[:HiddenLayersCount]= NN_Layers.copy()
         
     NN_Layers = (NN_Layers*maxNeurons).round().astype('int')#denormalize
     
@@ -34,17 +34,14 @@ def create_NN(x,numInputs,MaxHiddenLayers, isClassifier=True):
     numHiddenOutputLayers = len(NN_Layers)
     numOfHiddenLayers = numHiddenOutputLayers-1
    
-    NN_Layers0 = [maxNeurons]*MaxHiddenLayers+[1]
+    NN_Layers0 = [maxNeurons]*HiddenLayersCount+[1]
     numHiddenOutputLayers0 = len(NN_Layers0)    
     
-    
-    if isClassifier:
-        net = nl.net.newff([[0, 1]]*numInputs, NN_Layers)
-    else:
-        net = nl.net.newff([[0, 1]]*numInputs, NN_Layers, transf=[nl.trans.TanSig()]*numOfHiddenLayers+[nl.trans.PureLin()])
+
+    net = nl.net.newff([[0, 1]]*numInputs, NN_Layers, transf=[nl.trans.TanSig()]*numOfHiddenLayers+[nl.trans.PureLin()])
 
 
-    x2= x[MaxHiddenLayers:].copy()
+    x2= x[HiddenLayersCount:].copy()
     
     split = [(NN_Layers[0]*numInputs,NN_Layers[0])]
     split_sum = [0, split[0][0],split[0][0]+split[0][1]]
@@ -63,7 +60,7 @@ def create_NN(x,numInputs,MaxHiddenLayers, isClassifier=True):
         split_sum0 = split_sum0 + [split_sum0[-1] + split0[i][1]]        
 
     k=0
-    for i in range(MaxHiddenLayers+1):
+    for i in range(HiddenLayersCount+1):
         if (NN_Layers2[i] != 0):
             #print(split_sum0)
             #print(split)

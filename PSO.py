@@ -13,7 +13,7 @@ import time
 
 
 
-def PSO(objf,lb,ub,dim,PopSize,iters,trainInput,trainOutput,net, MaxHiddenLayers,isClassifier):
+def PSO(objf,lb,ub,dim,PopSize,iters,trainInput,trainOutput, HiddenLayersCount,isClassifier):
 
 
     
@@ -61,7 +61,7 @@ def PSO(objf,lb,ub,dim,PopSize,iters,trainInput,trainOutput,net, MaxHiddenLayers
             #pos[i,:]=checkBounds(pos[i,:],lb,ub)
             pos[i,:]=numpy.clip(pos[i,:], lb, ub)
             #Calculate objective function for each particle
-            fitness=objf(pos[i,:],trainInput,trainOutput,net,MaxHiddenLayers,isClassifier)
+            fitness=objf(pos[i,:],trainInput,trainOutput,HiddenLayersCount,isClassifier)
     
             if(pBestScore[i]>fitness):
                 pBestScore[i]=fitness
