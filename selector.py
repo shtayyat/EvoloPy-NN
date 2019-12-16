@@ -33,7 +33,7 @@ def selector(algo, func_details, popSize, Iter, trainDataset, testDataset, isCla
     Dataset_train = numpy.loadtxt(open(dataTrain, "rb"), delimiter=",", skiprows=0)
     Dataset_test = numpy.loadtxt(open(dataTest, "rb"), delimiter=",", skiprows=0)
     getattr(normalization,normalizationFunction)(Dataset_train)
-    getattr(normalization,normalizationFunction)(Dataset_train)
+    getattr(normalization,normalizationFunction)(Dataset_test)
     #    numRowsTrain=numpy.shape(Dataset_train)[0]    # number of instances in the train dataset
     numInputsTrain = numpy.shape(Dataset_train)[1] - 1  # number of features in the train dataset
     #    numRowsTest=numpy.shape(Dataset_test)[0]    # number of instances in the test dataset
