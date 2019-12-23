@@ -53,7 +53,7 @@ def RouletteWheelSelection(weights):
   return choice
 
 
-def MVO(objf,lb,ub,dim,N,Max_time,trainInput,trainOutput,HiddenLayersCount,isClassifier):
+def MVO(objf,lb,ub,dim,N,Max_time,trainInput,trainOutput,HiddenLayersCount,isClassifier, costFunction):
 
 #def MVO(objf,lb,ub,dim,N,Max_time):
 
@@ -106,7 +106,7 @@ def MVO(objf,lb,ub,dim,N,Max_time,trainInput,trainOutput,HiddenLayersCount,isCla
     
             
     
-            Inflation_rates[i]=objf(Universes[i,:],trainInput,trainOutput,HiddenLayersCount,isClassifier);
+            Inflation_rates[i]=objf(Universes[i,:],trainInput,trainOutput,HiddenLayersCount,isClassifier, costFunction);
            
        
                

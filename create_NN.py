@@ -6,11 +6,8 @@ Created on Thu May 23 14:44:59 2019
 """
 import numpy as np
 import neurolab as nl
-#import solution
 
 def create_NN(x,numInputs,HiddenLayersCount, isClassifier=True):
-    #numInputs=6
-    #HiddenLayersCount=20
     maxNeurons = numInputs*3
     out = 1
 
@@ -35,10 +32,12 @@ def create_NN(x,numInputs,HiddenLayersCount, isClassifier=True):
     numOfHiddenLayers = numHiddenOutputLayers-1
    
     NN_Layers0 = [maxNeurons]*HiddenLayersCount+[1]
-    numHiddenOutputLayers0 = len(NN_Layers0)    
-    
+    numHiddenOutputLayers0 = len(NN_Layers0)
 
-    net = nl.net.newff([[0, 1]]*numInputs, NN_Layers, transf=[nl.trans.TanSig()]*numOfHiddenLayers+[nl.trans.PureLin()])
+    if isClassifier:
+        net = nl.net.newff([[0, 1]]*numInputs, NN_Layers)
+    else:
+        net = nl.net.newff([[0, 1]]*numInputs, NN_Layers, transf=[nl.trans.TanSig()]*numOfHiddenLayers+[nl.trans.PureLin()])
 
 
     x2= x[HiddenLayersCount:].copy()
@@ -62,9 +61,6 @@ def create_NN(x,numInputs,HiddenLayersCount, isClassifier=True):
     k=0
     for i in range(HiddenLayersCount+1):
         if (NN_Layers2[i] != 0):
-            #print(split_sum0)
-            #print(split)
-           # print(i)
             input_w = x2[split_sum0[2*i]:split_sum0[2*i]+split[k][0]].reshape(net.layers[k].np['w'][:].shape)
             net.layers[k].np['w'][:] = input_w
             input_b = x2[split_sum0[2*i+1]:split_sum0[2*i+1]+split[k][1]].reshape(net.layers[k].np['b'][:].shape)

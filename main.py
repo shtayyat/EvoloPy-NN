@@ -8,11 +8,11 @@ Selecting the optimization algorithims to be used in run time
 set the algorithim you want to run to True else set them to False
 '''
 PSO = True
-MVO = False
-GWO = False
-MFO = False
-CS = False
-BAT = False
+MVO = True
+GWO = True
+MFO = True
+CS = True
+BAT = True
 
 optimizer = [PSO, MVO, GWO, MFO, CS, BAT]
 
@@ -35,7 +35,7 @@ normalizationFunction = "minMax"
 choose if you want to run a classification or regression
 isClassifier = True Then it Will use regression
 '''
-isClassifier = False
+isClassifier = True
 
 '''
 Select number of repetitions for each experiment. 
@@ -45,8 +45,14 @@ are executed for each algorithm.
 NumOfRuns = 1
 
 # Select general parameters for all optimizers (population size, number of iterations)
-PopulationSize = 50
-Iterations = 2
+PopulationSize = 20
+Iterations = 40
+
+'''
+Select cost function
+Available options are: ["MSE", "Accuracy", "Gmean"]
+'''
+costFunction = "MSE"
 
 # Export results ?
 Export = True
@@ -61,7 +67,7 @@ ExportToFile = "experiment" + time.strftime("%Y-%m-%d-%H-%M-%S") + ".csv"
 Flag = False
 
 #Number of hidden layers
-HiddenLayersCount = 2
+HiddenLayersCount = 1
 
 # CSV Header for for the cinvergence
 CnvgHeader = []
@@ -83,7 +89,7 @@ for j in range(0, len(datasets)):  # specfiy the number of the datasets
                 trainDataset = datasets[j] + "Train.csv"
                 testDataset = datasets[j] + "Test.csv"
                 x = slctr.selector(i, func_details, PopulationSize, Iterations, trainDataset,
-                                   testDataset, isClassifier, HiddenLayersCount, normalizationFunction)
+                                   testDataset, isClassifier, HiddenLayersCount, normalizationFunction, costFunction)
 
                 if (Export == True):
                     with open(ExportToFile, 'a', newline='\n') as out:

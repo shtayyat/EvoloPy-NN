@@ -11,8 +11,7 @@ import numpy as np
 import time
 
 def evaluateNet(trainInput,trainOutput,net,isClassifier=True):
-    if isClassifier:
-        printAcc=[]
+    printAcc=[]
     pred=net.sim(trainInput).reshape(len(trainOutput))
 
     if isClassifier:
@@ -21,11 +20,9 @@ def evaluateNet(trainInput,trainOutput,net,isClassifier=True):
         pred=np.clip(pred, 0, 1)
         ConfMatrix=confusion_matrix(trainOutput, pred, labels=[0,1])
         ConfMatrix1D=ConfMatrix.flatten()
-        time.sleep(5)
         printAcc.append(accuracy_score(trainOutput, pred,normalize=True))
         classification_results= np.concatenate((printAcc,ConfMatrix1D))
         results = classification_results
-
     else: #For regression
         e = pred - trainOutput
         MSE = ((e) ** 2).mean(axis=None)
@@ -35,7 +32,6 @@ def evaluateNet(trainInput,trainOutput,net,isClassifier=True):
         MMRE = (abs(e)/(trainOutput+0.00001)).mean(axis=None)
         ED = np.sum((e)**2)
         r2 = r2_score(trainOutput, pred)
-        time.sleep(5)
         results= np.concatenate(([MSE],[MAE],[RMSE],[MMRE],[VAF],[ED],[r2]))
 
     return results

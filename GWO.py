@@ -15,7 +15,7 @@ import time
     
 
 #def GWO(objf,lb,ub,dim,SearchAgents_no,Max_iter):
-def GWO(objf,lb,ub,dim,SearchAgents_no,Max_iter,trainInput,trainOutput,HiddenLayersCount,isClassifier):
+def GWO(objf,lb,ub,dim,SearchAgents_no,Max_iter,trainInput,trainOutput,HiddenLayersCount,isClassifier, costFunction):
 
 
    
@@ -55,7 +55,7 @@ def GWO(objf,lb,ub,dim,SearchAgents_no,Max_iter,trainInput,trainOutput,HiddenLay
             Positions[i,:]=numpy.clip(Positions[i,:], lb, ub)
 
             # Calculate objective function for each search agent
-            fitness=objf(Positions[i,:],trainInput,trainOutput,HiddenLayersCount,isClassifier)
+            fitness=objf(Positions[i,:],trainInput,trainOutput,HiddenLayersCount,isClassifier, costFunction)
             
             # Update Alpha, Beta, and Delta
             if fitness<Alpha_score :

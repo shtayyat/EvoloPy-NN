@@ -10,7 +10,7 @@ import random
 import time
 from solution import solution
     
-def BAT(objf,lb,ub,dim,N,Max_iteration,trainInput,trainOutput,HiddenLayersCount,isClassifier):
+def BAT(objf,lb,ub,dim,N,Max_iteration,trainInput,trainOutput,HiddenLayersCount,isClassifier, costFunction):
     
     n=N;      # Population size
     #lb=-50
@@ -48,7 +48,7 @@ def BAT(objf,lb,ub,dim,N,Max_iteration,trainInput,trainOutput,HiddenLayersCount,
     
     #Evaluate initial random solutions
     for i in range(0,n):
-      Fitness[i]=objf(Sol[i,:],trainInput,trainOutput,HiddenLayersCount,isClassifier)
+      Fitness[i]=objf(Sol[i,:],trainInput,trainOutput,HiddenLayersCount,isClassifier, costFunction)
     
     
     # Find the initial best solution
@@ -75,7 +75,7 @@ def BAT(objf,lb,ub,dim,N,Max_iteration,trainInput,trainOutput,HiddenLayersCount,
           
     
           # Evaluate new solutions
-          Fnew=objf(S[i,:],trainInput,trainOutput,HiddenLayersCount,isClassifier)
+          Fnew=objf(S[i,:],trainInput,trainOutput,HiddenLayersCount,isClassifier, costFunction)
          
           # Update if the solution improves
           if ((Fnew<=Fitness[i]) and (random.random()<A) ):
