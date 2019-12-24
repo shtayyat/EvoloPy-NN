@@ -25,7 +25,7 @@ def costNN(x,trainInput,trainOutput,HiddenLayersCount,isClassifier=True, costFun
 
     if (costFunction == "Accuracy"):
         acc = accuracy_score(trainOutput, pred, normalize=True)
-        return acc
+        return 1 - acc
 
     if (costFunction == "Gmean"):
         confMatrix = confusion_matrix(trainOutput, pred, labels=[0,1]).flatten()
